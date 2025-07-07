@@ -388,7 +388,7 @@ const PlanningTable = ({
             {employees.map((employee) => (
               <tr key={`${period}_${employee}`}>
                 <td className="fixed-col">
-                  {employee} ({calculateDailyHoursForTable(employee, selectedDay, planning, timeSlots)} h)
+                  {employee} ({calculateDailyHoursForPeriod(employee, selectedDay, slots, periodName)} h)
                 </td>
                 {slots.map((timeRange) => (
                   <td
@@ -491,9 +491,25 @@ const PlanningTable = ({
             className={`total-btn ${selectedDay === day ? 'active' : ''}`}
             onClick={() => handleDayChange(day)}
             title={`Voir le planning pour ${day}`}
-            style={{ fontFamily: 'Roboto', backgroundColor: getCouleurJour(index, 'total-btn'), color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            style={{ 
+              fontFamily: 'Roboto', 
+              backgroundColor: getCouleurJour(index, 'total-btn'), 
+              color: 'white', 
+              borderRadius: '8px', 
+              padding: '10px', 
+              fontSize: '14px', 
+              fontWeight: 'bold', 
+              transition: 'background-color 0.2s, transform 0.1s',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minWidth: '90px',
+              height: '60px'
+            }}
           >
-            {day} ({calculateTotalDailyHours(employees, day, planning, timeSlots)} h)
+            <span>{day}</span>
+            <span>({calculateTotalDailyHours(employees, day, planning, timeSlots)} h)</span>
           </button>
         ))}
       </div>
@@ -604,149 +620,148 @@ const PlanningTable = ({
                   }}
                   className="employee-select"
                   style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
-                >
-                  <option value="">-- Sélectionner un employé --</option>
-                  {employees.map((emp) => (
-                    <option key={emp} value={emp}>
-                      {emp}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            {copyMode === 'employeeToEmployee' && (
-              <div className="control-group">
-                <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Employé cible :</label>
-                <select
-                  value={targetEmployee}
-                  onChange={(e) => {
-                    setTargetEmployee(e.target.value);
-                    if (process.env.NODE_ENV !== 'production') {
-                      console.log('PlanningTable: Changed target employee to:', e.target.value);
-                    }
-                  }}
-                  className="employee-select"
-                  style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
-                >
-                  <option value="">-- Sélectionner un employé --</option>
-                  {employees.map((emp) => (
-                    <option key={emp} value={emp}>
-                      {emp}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div className="control-group">
-              <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Jours cibles :</label>
-              <div className="target-days">
-                {days.map((day) => (
-                  <label key={day} style={{ fontFamily: 'Roboto', fontSize: '14px' }}>
-                    <input
-                      type="checkbox"
-                      checked={targetDays.includes(day)}
-                      onChange={() => {
-                        if (targetDays.includes(day)) {
-                          setTargetDays(targetDays.filter((d) => d !== day));
-                        } else {
-                          setTargetDays([...targetDays, day]);
-                        }
-                        if (process.env.NODE_ENV !== 'production') {
-                          console.log('PlanningTable: Toggled target day:', day, 'New target days:', targetDays);
-                        }
-                      }}
-                    />
-                    {day}
-                  </label>
-                ))}
-              </div>
-            </div>
-            <div className="button-group">
-              <button
-                className="copy-btn"
-                onClick={handleCopyDay}
-                disabled={!sourceDay || (copyMode !== 'all' && !sourceEmployee)}
-                title="Copier les données du jour"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
               >
-                <FaCopy /> Copier
-              </button>
-              <button
-                className="copy-btn"
-                onClick={handlePasteDay}
-                disabled={!copiedData || targetDays.length === 0 || (copyMode === 'employeeToEmployee' && !targetEmployee)}
-                title="Coller les données"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-              >
-                <FaPaste /> Coller
-              </button>
-              <button
-                className="reset-button"
-                onClick={handleResetSelections}
-                disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
-                title="Réinitialiser les sélections"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-              >
-                Réinitialiser
-              </button>
-            </div>
-            {copyFeedback && <div className="copy-feedback" style={{ fontFamily: 'Roboto', fontSize: '14px', color: '#4a90e2' }}>{copyFeedback}</div>}
-          </div>
-
-          <div className="copy-paste-controls">
-            <h4 style={{ fontFamily: 'Roboto', fontSize: '18px' }}>Copier/Coller une semaine existante</h4>
-            <div className="control-group">
-              <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Semaine source :</label>
-              <select
-                value={previousWeek}
-                onChange={(e) => {
-                  setPreviousWeek(e.target.value);
-                  if (process.env.NODE_ENV !== 'production') {
-                    console.log('PlanningTable: Changed previous week to:', e.target.value);
-                  }
-                }}
-                className="previous-week-select"
-                style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
-              >
-                <option value="">-- Sélectionner une semaine --</option>
-                {previousWeeks.map((week) => (
-                  <option key={week} value={week}>
-                    {format(new Date(week), 'dd/MM/yy', { locale: fr })}
+                <option value="">-- Sélectionner un employé --</option>
+                {employees.map((emp) => (
+                  <option key={emp} value={emp}>
+                    {emp}
                   </option>
                 ))}
               </select>
             </div>
-            <div className="button-group">
-              <button
-                className="copy-btn"
-                onClick={handleCopyPreviousWeek}
-                disabled={!previousWeek}
-                title="Copier la semaine sélectionnée"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+          )}
+          {copyMode === 'employeeToEmployee' && (
+            <div className="control-group">
+              <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Employé cible :</label>
+              <select
+                value={targetEmployee}
+                onChange={(e) => {
+                  setTargetEmployee(e.target.value);
+                  if (process.env.NODE_ENV !== 'production') {
+                    console.log('PlanningTable: Changed target employee to:', e.target.value);
+                  }
+                }}
+                className="employee-select"
+                style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
               >
-                <FaCopy /> Copier semaine
-              </button>
-              <button
-                className="copy-btn"
-                onClick={handlePastePreviousWeek}
-                disabled={!copiedData}
-                title="Coller la semaine"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-              >
-                <FaPaste /> Coller semaine
-              </button>
-              <button
-                className="reset-button"
-                onClick={handleResetSelections}
-                disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
-                title="Réinitialiser les sélections"
-                style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-              >
-                Réinitialiser
-              </button>
+                <option value="">-- Sélectionner un employé --</option>
+                {employees.map((emp) => (
+                  <option key={emp} value={emp}>
+                    {emp}
+                  </option>
+                ))}
+              </select>
             </div>
-            {copyFeedback && <div className="copy-feedback" style={{ fontFamily: 'Roboto', fontSize: '14px', color: '#4a90e2' }}>{copyFeedback}</div>}
+          )}
+          <div className="control-group">
+            <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Jours cibles :</label>
+            <div className="target-days">
+              {days.map((day) => (
+                <label key={day} style={{ fontFamily: 'Roboto', fontSize: '14px' }}>
+                  <input
+                    type="checkbox"
+                    checked={targetDays.includes(day)}
+                    onChange={() => {
+                      if (targetDays.includes(day)) {
+                        setTargetDays(targetDays.filter((d) => d !== day));
+                      } else {
+                        setTargetDays([...targetDays, day]);
+                      }
+                      if (process.env.NODE_ENV !== 'production') {
+                        console.log('PlanningTable: Toggled target day:', day, 'New target days:', targetDays);
+                      }
+                    }}
+                  />
+                  {day}
+                </label>
+              ))}
+            </div>
           </div>
+          <div className="button-group">
+            <button
+              className="copy-btn"
+              onClick={handleCopyDay}
+              disabled={!sourceDay || (copyMode !== 'all' && !sourceEmployee)}
+              title="Copier les données du jour"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              <FaCopy /> Copier
+            </button>
+            <button
+              className="copy-btn"
+              onClick={handlePasteDay}
+              disabled={!copiedData || targetDays.length === 0 || (copyMode === 'employeeToEmployee' && !targetEmployee)}
+              title="Coller les données"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              <FaPaste /> Coller
+            </button>
+            <button
+              className="reset-button"
+              onClick={handleResetSelections}
+              disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
+              title="Réinitialiser les sélections"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              Réinitialiser
+            </button>
+          </div>
+          {copyFeedback && <div className="copy-feedback" style={{ fontFamily: 'Roboto', fontSize: '14px', color: '#4a90e2' }}>{copyFeedback}</div>}
+        </div>
+
+        <div className="copy-paste-controls">
+          <h4 style={{ fontFamily: 'Roboto', fontSize: '18px' }}>Copier/Coller une semaine existante</h4>
+          <div className="control-group">
+            <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>Semaine source :</label>
+            <select
+              value={previousWeek}
+              onChange={(e) => {
+                setPreviousWeek(e.target.value);
+                if (process.env.NODE_ENV !== 'production') {
+                  console.log('PlanningTable: Changed previous week to:', e.target.value);
+                }
+              }}
+              className="previous-week-select"
+              style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
+            >
+              <option value="">-- Sélectionner une semaine --</option>
+              {previousWeeks.map((week) => (
+                <option key={week} value={week}>
+                  {format(new Date(week), 'dd/MM/yy', { locale: fr })}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="button-group">
+            <button
+              className="copy-btn"
+              onClick={handleCopyPreviousWeek}
+              disabled={!previousWeek}
+              title="Copier la semaine sélectionnée"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              <FaCopy /> Copier semaine
+            </button>
+            <button
+              className="copy-btn"
+              onClick={handlePastePreviousWeek}
+              disabled={!copiedData}
+              title="Coller la semaine"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              <FaPaste /> Coller semaine
+            </button>
+            <button
+              className="reset-button"
+              onClick={handleResetSelections}
+              disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
+              title="Réinitialiser les sélections"
+              style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
+            >
+              Réinitialiser
+            </button>
+          </div>
+          {copyFeedback && <div className="copy-feedback" style={{ fontFamily: 'Roboto', fontSize: '14px', color: '#4a90e2' }}>{copyFeedback}</div>}
         </div>
       )}
 
@@ -783,7 +798,7 @@ const PlanningTable = ({
                 <thead>
                   <tr style={{ backgroundColor: '#4a90e2', color: 'white' }}>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Jour</th>
-                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Arrivée</th>
+                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'neuropsychiatric disorders, such as schizophrenia, bipolar disorder, and autism spectrum disorder.' left', width: '60px', fontSize: '14px' }}>Arrivée</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Sortie</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Retour</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Fin</th>
