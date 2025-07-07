@@ -1,7 +1,71 @@
-*.planning-container {
+.planning-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
+}
+
+.time-slot-section {
+    margin-bottom: 20px;
+}
+
+.planning-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.fixed-col {
+    position: sticky;
+    left: 0;
+    background-color: #f9f9f9;
+    z-index: 1;
+    max-width: 180px;
+    width: 180px;
+    min-width: 180px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.scrollable-col {
+    width: 60px;
+    min-width: 60px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
+    padding: 12px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.time-slot-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+    .time-slot-header span {
+        display: flex;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    .time-slot-header .time-value {
+        font-weight: bold;
+        width: 50px;
+        text-align: right;
+    }
+
+.error-message {
+    color: red;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    margin-bottom: 20px;
 }
 
 .header-info {
@@ -9,6 +73,7 @@
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
 }
 
 .back-btn-container {
@@ -16,17 +81,17 @@
     flex-wrap: wrap;
     gap: 10px;
     justify-content: center;
-    margin-bottom: 10px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.back-btn, .reset-button {
+.back-btn,
+.reset-button {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 8px;
     padding: 10px;
     font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
     min-width: 90px;
     height: 60px;
     display: flex;
@@ -35,59 +100,41 @@
     justify-content: center;
     text-align: center;
     line-height: 1.4;
+    border: none;
+    box-sizing: border-box;
+    margin: 0;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
 }
 
-.back-btn {
-    background-color: #1e88e5;
-}
+    .back-btn:hover,
+    .reset-button:hover {
+        transform: scale(1.05);
+    }
 
-.back-btn:hover {
-    background-color: #1565c0;
-    transform: translateY(-2px);
-}
-
-.back-btn-primary {
-    background-color: #1e88e5;
-}
-
-.back-btn-primary:hover {
-    background-color: #1565c0;
-}
-
-.reset-button {
-    background-color: #e53935;
-}
-
-.reset-button:hover {
-    background-color: #d32f2f;
-    transform: translateY(-2px);
-}
-
-.back-btn span:first-child, .reset-button span:first-child {
-    font-weight: bold;
-}
-
-.back-btn span:last-child, .reset-button span:last-child {
-    font-size: 12px;
-}
+    .back-btn:active,
+    .reset-button:active {
+        transform: scale(0.95);
+    }
 
 .total-hours-fixed {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 20px;
     justify-content: center;
+    margin-bottom: 20px;
+    background-color: #e6f0fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
 }
 
 .total-btn {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 8px;
     padding: 10px;
     font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 8px;
-    background-color: #1e88e5;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
     min-width: 90px;
     height: 60px;
     display: flex;
@@ -96,131 +143,55 @@
     justify-content: center;
     text-align: center;
     line-height: 1.4;
+    border: none;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
 }
 
-.total-btn:hover {
-    background-color: #1565c0;
-    transform: translateY(-2px);
-}
+    .total-btn.active {
+        border: 2px solid #333;
+    }
 
-.total-btn.active {
-    background-color: #0d47a1;
-}
+    .total-btn:hover {
+        transform: scale(1.05);
+    }
 
-.total-btn span:first-child {
-    font-weight: bold;
-}
-
-.total-btn span:last-child {
-    font-size: 12px;
-}
+    .total-btn:active {
+        transform: scale(0.95);
+    }
 
 .recap-controls {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
     margin-bottom: 20px;
+    justify-content: center;
 }
 
 .recap-btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #43a047;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.recap-btn:hover {
-    background-color: #2e7d32;
-    transform: translateY(-2px);
-}
-
-.shop-recap-btn {
-    background-color: #43a047;
-}
-
-.shop-recap-btn:hover {
-    background-color: #2e7d32;
-}
-
-.time-slot-section {
-    margin-bottom: 15px;
-}
-
-.planning-table {
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.fixed-col {
-    position: sticky;
-    left: 0;
-    background-color: #fff;
-    z-index: 1;
-    border-right: 1px solid #ddd;
-}
-
-.scrollable-col {
-    text-align: center;
-    width: 60px;
-    min-width: 60px;
-}
-
-.planning-table th, .planning-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.planning-table th {
-    background-color: #f5f5f5;
-    font-weight: bold;
-}
-
-.time-slot-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    line-height: 1.2;
-}
-
-.time-slot-header span {
-    display: block;
-    font-size: 14px;
-}
-
-.recap-table {
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 20px;
-}
-
-.recap-table th, .recap-table td {
-    border: 1px solid #ddd;
-    padding: 6px;
-}
-
-.recap-table th {
-    background-color: #e5e5e5;
-    font-weight: bold;
-}
-
-.day-date {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 8px;
+    padding: 10px 20px;
     font-size: 16px;
     font-weight: bold;
-    padding: 8px;
-    margin-bottom: 10px;
+    transition: background-color 0.2s, transform 0.1s;
+    cursor: pointer;
 }
+
+    .recap-btn:hover {
+        transform: scale(1.05);
+    }
+
+    .recap-btn:active {
+        transform: scale(0.95);
+    }
 
 .copy-paste-section {
     margin-top: 20px;
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
 .copy-paste-controls {
@@ -228,22 +199,19 @@
 }
 
 .control-group {
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.control-group label {
-    display: block;
+.copy-mode-select,
+.day-select,
+.employee-select,
+.previous-week-select {
+    font-family: 'Roboto', sans-serif;
+    padding: 10px;
+    border-radius: 8px;
     font-size: 14px;
-    margin-bottom: 5px;
-}
-
-.copy-mode-select, .day-select, .employee-select, .previous-week-select {
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
     width: 100%;
-    max-width: 200px;
+    max-width: 300px;
 }
 
 .target-days {
@@ -255,167 +223,139 @@
 .button-group {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
 }
 
-.copy-btn, .paste-btn {
-    padding: 8px 16px;
-    font-size: 14px;
+.copy-btn,
+.reset-button {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s, transform 0.1s;
     cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    background-color: #1e88e5;
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.copy-btn:hover, .paste-btn:hover {
-    background-color: #1565c0;
-    transform: translateY(-2px);
-}
+    .copy-btn:hover,
+    .reset-button:hover {
+        transform: scale(1.05);
+    }
 
-.copy-btn:disabled, .paste-btn:disabled {
-    background-color: #6c757d;
-    cursor: not-allowed;
-}
+    .copy-btn:active,
+    .reset-button:active {
+        transform: scale(0.95);
+    }
 
 .copy-feedback {
-    color: #43a047;
-    font-size: 12px;
     margin-top: 10px;
-}
-
-.copyright {
-    font-size: 10px;
-    color: #666;
-    margin-top: 20px;
-    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
 }
 
 @media (max-width: 768px) {
-    .planning-container {
-        padding: 15px;
-    }
-
-    .back-btn-container {
-        gap: 8px;
-    }
-
-    .back-btn, .reset-button {
-        padding: 8px;
-        font-size: 12px;
-        min-width: 80px;
-        height: 50px;
-    }
-
-    .back-btn span:last-child, .reset-button span:last-child {
-        font-size: 10px;
-    }
-
-    .total-hours-fixed {
-        gap: 8px;
-    }
-
-    .total-btn {
-        padding: 8px;
-        font-size: 12px;
-        min-width: 80px;
-        height: 50px;
-    }
-
-    .total-btn span:last-child {
-        font-size: 10px;
-    }
-
-    .time-slot-section {
-        margin-bottom: 10px;
-    }
-
-    .planning-table th, .planning-table td {
-        padding: 6px;
-        font-size: 12px;
-    }
-
     .fixed-col {
         max-width: 150px;
+        width: 150px;
         min-width: 150px;
+        font-size: 12px;
     }
 
     .scrollable-col {
         width: 50px;
         min-width: 50px;
-    }
-
-    .time-slot-header span {
         font-size: 12px;
     }
 
-    .copy-mode-select, .day-select, .employee-select, .previous-week-select {
+    .time-slot-header {
         font-size: 12px;
-        max-width: 150px;
+    }
+
+        .time-slot-header .time-value {
+            width: 45px;
+            font-size: 12px;
+            text-align: right;
+        }
+
+    .back-btn-container {
+        gap: 8px;
+        align-items: center;
+    }
+
+    .back-btn,
+    .reset-button {
+        min-width: 80px;
+        height: 50px;
+        font-size: 12px;
+        margin: 0;
+    }
+
+    .total-hours-fixed {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .total-btn {
+        min-width: 80px;
+        height: 50px;
+        font-size: 12px;
+    }
+
+    .recap-btn {
+        padding: 8px 16px;
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
-    .planning-container {
-        padding: 10px;
-    }
-
-    .back-btn-container {
-        gap: 6px;
-    }
-
-    .back-btn, .reset-button {
-        padding: 6px;
-        font-size: 10px;
-        min-width: 70px;
-        height: 45px;
-    }
-
-    .back-btn span:last-child, .reset-button span:last-child {
-        font-size: 9px;
-    }
-
-    .total-hours-fixed {
-        gap: 6px;
-    }
-
-    .total-btn {
-        padding: 6px;
-        font-size: 10px;
-        min-width: 70px;
-        height: 45px;
-    }
-
-    .total-btn span:last-child {
-        font-size: 9px;
-    }
-
-    .time-slot-section {
-        margin-bottom: 8px;
-    }
-
-    .planning-table th, .planning-table td {
-        padding: 5px;
-        font-size: 10px;
-    }
-
     .fixed-col {
         max-width: 120px;
+        width: 120px;
         min-width: 120px;
+        font-size: 10px;
     }
 
     .scrollable-col {
         width: 40px;
         min-width: 40px;
-    }
-
-    .time-slot-header span {
         font-size: 10px;
     }
 
-    .copy-mode-select, .day-select, .employee-select, .previous-week-select {
+    .time-slot-header {
         font-size: 10px;
-        max-width: 120px;
+    }
+
+        .time-slot-header .time-value {
+            width: 40px;
+            font-size: 10px;
+            text-align: right;
+        }
+
+    .back-btn-container {
+        gap: 6px;
+        align-items: center;
+    }
+
+    .back-btn,
+    .reset-button {
+        min-width: 70px;
+        height: 40px;
+        font-size: 10px;
+        margin: 0;
+    }
+
+    .total-hours-fixed {
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .total-btn {
+        min-width: 70px;
+        height: 40px;
+        font-size: 10px;
+    }
+
+    .recap-btn {
+        padding: 6px 12px;
+        font-size: 12px;
     }
 }

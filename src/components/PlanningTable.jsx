@@ -402,8 +402,9 @@ const PlanningTable = ({
   return (
     <div className="planning-container">
       {error && <div className="error-message">{error}</div>}
-      <h2 style={{ fontFamily: 'Roboto', fontSize: '24px', fontWeight: 'bold' }}>Planning pour {selectedShop}</h2>
-      <h3 className="selected-day">Jour sélectionné : {selectedDay}</h3>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <h2 style={{ fontFamily: 'Roboto', fontSize: '24px', fontWeight: 'bold', textAlign: 'center' }}>Planning pour {selectedShop}</h2>
+      </div>
       <div className="header-info">
         <div style={{ fontFamily: 'Roboto', fontSize: '18px', fontWeight: 'bold' }}>
           Lundi {selectedWeek ? format(new Date(selectedWeek), 'dd/MM/yy', { locale: fr }) : '-'} au Dimanche {selectedWeek ? format(addDays(new Date(selectedWeek), 6), 'dd/MM/yy', { locale: fr }) : '-'}
@@ -415,7 +416,7 @@ const PlanningTable = ({
             { label: 'Retour Semaine', onClick: onBackToWeek, className: 'back-btn', log: 'Returning to week selection' },
             { label: 'Retour Employés', onClick: onBackToEmployees, className: 'back-btn', log: 'Returning to employee selection' },
             { label: 'Retour Configuration', onClick: onBackToConfig, className: 'back-btn', log: 'Returning to time slot configuration' },
-            { label: 'Réinitialiser', onClick: handleReset, className: 'reset-button', log: 'Resetting planning' },
+            { label: 'Réinitialiser Planning', onClick: handleReset, className: 'reset-button', log: 'Resetting planning' },
           ].map((btn, index) => (
             <button
               key={btn.label}
@@ -502,6 +503,26 @@ const PlanningTable = ({
           style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
         >
           Récapitulatif semaine
+        </button>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', margin: '10px 0' }}>
+        <button
+          className="selected-day-btn"
+          style={{
+            fontFamily: 'Roboto',
+            backgroundColor: '#e74c3c',
+            color: 'white',
+            borderRadius: '8px',
+            padding: '10px 20px',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            border: 'none',
+            transition: 'background-color 0.2s, transform 0.1s',
+            cursor: 'default',
+          }}
+        >
+          Jour sélectionné : {selectedDay}
         </button>
       </div>
 
@@ -834,19 +855,17 @@ const PlanningTable = ({
                 </thead>
                 <tbody>
                   {getShopDailySchedule(employees, planning, timeSlots, timeSlotConfig, days, getCouleurJour).map((dayData, index) => (
-                    <tr key={dayData.day} style={{ backgroundColor: getCouleurJour(index, 'recap-table') }}>
-                      {dayData.employees.map((emp, idx) => (
-                        <>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>{idx === 0 ? dayData.day : ''}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '90px', fontSize: '14px' }}>{emp.name}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.arrival || '-'}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.departure || '-'}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.return || '-'}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.end || '-'}</td>
-                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>{emp.totalHours} h</td>
-                        </>
-                      ))}
-                    </tr>
+                    dayData.employees.map((emp, idx) => (
+                      <tr key={`${emp.name}_${idx}`} style={{ backgroundColor: getCouleurJour(index, 'recap-table') }}>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>{dayData.day}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '90px', fontSize: '14px' }}>{emp.name}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].arrival || '-'}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].departure || '-'}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].return || '-'}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].end || '-'}</td>
+                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>{emp.totalHours} h</td>
+                      </tr>
+                    ))
                   ))}
                 </tbody>
               </table>
@@ -878,7 +897,7 @@ const PlanningTable = ({
           }
           setShowConfirmReset(false);
         }}
-        onConfirm={() => confirmReset()}
+        onConfirm={() => handleReset()}
         message="Voulez-vous vraiment réinitialiser le planning ? Cela supprimera toutes les données du planning actuel."
         style={{ fontFamily: 'Roboto', fontSize: '14px' }}
       />
