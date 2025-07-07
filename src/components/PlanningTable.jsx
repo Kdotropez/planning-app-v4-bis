@@ -199,23 +199,6 @@ const PlanningTable = ({
 
   const timeSlots = balanceTimeSlots();
 
-  const calculateDailyHoursForPeriod = (employee, day, slots, periodName) => {
-    let totalHours = 0;
-    slots.forEach((timeRange) => {
-      const key = `${day}_${timeRange}_${employee}`;
-      if (planning[key]) {
-        const [start, end] = timeRange.split('-');
-        const startMinutes = parseInt(start.split(':')[0]) * 60 + parseInt(start.split(':')[1]);
-        const endMinutes = end === '24:00' ? 24 * 60 : parseInt(end.split(':')[0]) * 60 + parseInt(end.split(':')[1]);
-        totalHours += (endMinutes - startMinutes) / 60;
-      }
-    });
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`calculateDailyHoursForPeriod: ${employee} on ${day} for ${periodName}: ${totalHours.toFixed(1)}h, slots:`, slots, 'planning keys:', Object.keys(planning).filter(k => k.startsWith(day)));
-    }
-    return totalHours.toFixed(1);
-  };
-
   const calculateTotalDailyHours = (localEmployees, selectedDay, planning, timeSlots) => {
     if (!localEmployees || !localEmployees.length) {
       return '0.0';
@@ -388,7 +371,7 @@ const PlanningTable = ({
             {employees.map((employee) => (
               <tr key={`${period}_${employee}`}>
                 <td className="fixed-col">
-                  {employee} ({calculateDailyHoursForPeriod(employee, selectedDay, slots, periodName)} h)
+                  {employee} ({calculateDailyHoursForTable(employee, selectedDay, planning, timeSlots)} h)
                 </td>
                 {slots.map((timeRange) => (
                   <td
