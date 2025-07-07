@@ -367,7 +367,7 @@ const PlanningTable = ({
             <tr>
               <th className="fixed-col" style={{ maxWidth: '180px', width: '180px', minWidth: '180px', fontSize: '14px' }}>{periodName}</th>
               {slots.map((timeRange) => (
-                <th key={`${period}_${timeRange}`} className="scrollable-col" style={{ width: '80px', minWidth: '80px', fontSize: '14px' }}>
+                <th key={`${period}_${timeRange}`} className="scrollable-col" style={{ width: '60px', minWidth: '60px', fontSize: '14px' }}>
                   {formatTimeSlot(timeRange)}
                 </th>
               ))}
@@ -497,7 +497,7 @@ const PlanningTable = ({
         ))}
         <button
           className="recap-btn"
-          onClick={handleWeeklyRecapClick}
+          onClick={() => handleWeeklyRecapClick()}
           title="Récapitulatif hebdomadaire de la boutique"
           style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
         >
@@ -526,7 +526,7 @@ const PlanningTable = ({
 
       <button
         className="back-btn"
-        onClick={handleToggleCopyPaste}
+        onClick={() => handleToggleCopyPaste()}
         title="Afficher/Masquer les options de copier/coller"
         style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
       >
@@ -649,7 +649,7 @@ const PlanningTable = ({
             <div className="button-group">
               <button
                 className="copy-btn"
-                onClick={handleCopyDay}
+                onClick={() => handleCopyDay()}
                 disabled={!sourceDay || (copyMode !== 'all' && !sourceEmployee)}
                 title="Copier les données du jour"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -658,7 +658,7 @@ const PlanningTable = ({
               </button>
               <button
                 className="copy-btn"
-                onClick={handlePasteDay}
+                onClick={() => handlePasteDay()}
                 disabled={!copiedData || targetDays.length === 0 || (copyMode === 'employeeToEmployee' && !targetEmployee)}
                 title="Coller les données"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -667,7 +667,7 @@ const PlanningTable = ({
               </button>
               <button
                 className="reset-button"
-                onClick={handleResetSelections}
+                onClick={() => handleResetSelections()}
                 disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
                 title="Réinitialiser les sélections"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -694,9 +694,9 @@ const PlanningTable = ({
                 style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
               >
                 <option value="">-- Sélectionner une semaine --</option>
-                {days.map((day) => (
-                  <option key={day} value={day}>
-                    {day}
+                {previousWeeks.map((week) => (
+                  <option key={week} value={week}>
+                    {format(new Date(week), 'dd/MM/yy', { locale: fr })}
                   </option>
                 ))}
               </select>
@@ -704,7 +704,7 @@ const PlanningTable = ({
             <div className="button-group">
               <button
                 className="copy-btn"
-                onClick={handleCopyPreviousWeek}
+                onClick={() => handleCopyPreviousWeek()}
                 disabled={!previousWeek}
                 title="Copier la semaine sélectionnée"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -713,7 +713,7 @@ const PlanningTable = ({
               </button>
               <button
                 className="copy-btn"
-                onClick={handlePastePreviousWeek}
+                onClick={() => handlePastePreviousWeek()}
                 disabled={!copiedData}
                 title="Coller la semaine"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -722,7 +722,7 @@ const PlanningTable = ({
               </button>
               <button
                 className="reset-button"
-                onClick={handleResetSelections}
+                onClick={() => handleResetSelections()}
                 disabled={!sourceDay && !sourceEmployee && !targetEmployee && targetDays.length === 0 && !copiedData}
                 title="Réinitialiser les sélections"
                 style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
@@ -772,7 +772,7 @@ const PlanningTable = ({
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Sortie</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Retour</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Fin</th>
-                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', markingsize: '14px' }}>Heures effectives</th>
+                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>Heures effectives</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -834,17 +834,19 @@ const PlanningTable = ({
                 </thead>
                 <tbody>
                   {getShopDailySchedule(employees, planning, timeSlots, timeSlotConfig, days, getCouleurJour).map((dayData, index) => (
-                    dayData.employees.map((emp, idx) => (
-                      <tr key={`${emp.name}_${idx}`} style={{ backgroundColor: getCouleurJour(index, 'recap-table') }}>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>{dayData.day}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '90px', fontSize: '14px' }}>{emp.name}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].arrival || '-'}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].departure || '-'}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].return || '-'}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0].end || '-'}</td>
-                        <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>{emp.totalHours} h</td>
-                      </tr>
-                    ))
+                    <tr key={dayData.day} style={{ backgroundColor: getCouleurJour(index, 'recap-table') }}>
+                      {dayData.employees.map((emp, idx) => (
+                        <>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>{idx === 0 ? dayData.day : ''}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '90px', fontSize: '14px' }}>{emp.name}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.arrival || '-'}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.departure || '-'}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.return || '-'}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'normal', textAlign: 'left', width: '60px', fontSize: '14px' }}>{emp.periods[0]?.end || '-'}</td>
+                          <td style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>{emp.totalHours} h</td>
+                        </>
+                      ))}
+                    </tr>
                   ))}
                 </tbody>
               </table>
@@ -864,7 +866,7 @@ const PlanningTable = ({
           }
           setShowConfirmPaste(false);
         }}
-        onConfirm={handleConfirmPastePreviousWeek}
+        onConfirm={() => handleConfirmPastePreviousWeek()}
         message="Voulez-vous vraiment coller la semaine précédente ? Cela remplacera le planning actuel."
         style={{ fontFamily: 'Roboto', fontSize: '14px' }}
       />
@@ -876,7 +878,7 @@ const PlanningTable = ({
           }
           setShowConfirmReset(false);
         }}
-        onConfirm={confirmReset}
+        onConfirm={() => confirmReset()}
         message="Voulez-vous vraiment réinitialiser le planning ? Cela supprimera toutes les données du planning actuel."
         style={{ fontFamily: 'Roboto', fontSize: '14px' }}
       />

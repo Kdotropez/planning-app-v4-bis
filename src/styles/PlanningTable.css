@@ -1,4 +1,4 @@
-.planning-container {
+*.planning-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -41,35 +41,35 @@
     background-color: #1e88e5;
 }
 
-    .back-btn:hover {
-        background-color: #1565c0;
-        transform: translateY(-2px);
-    }
+.back-btn:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+}
 
 .back-btn-primary {
     background-color: #1e88e5;
 }
 
-    .back-btn-primary:hover {
-        background-color: #1565c0;
-    }
+.back-btn-primary:hover {
+    background-color: #1565c0;
+}
 
 .reset-button {
     background-color: #e53935;
 }
 
-    .reset-button:hover {
-        background-color: #d32f2f;
-        transform: translateY(-2px);
-    }
+.reset-button:hover {
+    background-color: #d32f2f;
+    transform: translateY(-2px);
+}
 
-    .back-btn span:first-child, .reset-button span:first-child {
-        font-weight: bold;
-    }
+.back-btn span:first-child, .reset-button span:first-child {
+    font-weight: bold;
+}
 
-    .back-btn span:last-child, .reset-button span:last-child {
-        font-size: 12px;
-    }
+.back-btn span:last-child, .reset-button span:last-child {
+    font-size: 12px;
+}
 
 .total-hours-fixed {
     display: flex;
@@ -98,22 +98,22 @@
     line-height: 1.4;
 }
 
-    .total-btn:hover {
-        background-color: #1565c0;
-        transform: translateY(-2px);
-    }
+.total-btn:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+}
 
-    .total-btn.active {
-        background-color: #0d47a1;
-    }
+.total-btn.active {
+    background-color: #0d47a1;
+}
 
-    .total-btn span:first-child {
-        font-weight: bold;
-    }
+.total-btn span:first-child {
+    font-weight: bold;
+}
 
-    .total-btn span:last-child {
-        font-size: 12px;
-    }
+.total-btn span:last-child {
+    font-size: 12px;
+}
 
 .recap-controls {
     display: flex;
@@ -133,18 +133,18 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-    .recap-btn:hover {
-        background-color: #2e7d32;
-        transform: translateY(-2px);
-    }
+.recap-btn:hover {
+    background-color: #2e7d32;
+    transform: translateY(-2px);
+}
 
 .shop-recap-btn {
     background-color: #43a047;
 }
 
-    .shop-recap-btn:hover {
-        background-color: #2e7d32;
-    }
+.shop-recap-btn:hover {
+    background-color: #2e7d32;
+}
 
 .time-slot-section {
     margin-bottom: 15px;
@@ -161,13 +161,12 @@
     background-color: #fff;
     z-index: 1;
     border-right: 1px solid #ddd;
-    max-width: 120px;
-    width: 120px;
-    min-width: 120px;
 }
 
 .scrollable-col {
     text-align: center;
+    width: 60px;
+    min-width: 60px;
 }
 
 .planning-table th, .planning-table td {
@@ -189,10 +188,10 @@
     line-height: 1.2;
 }
 
-    .time-slot-header span {
-        display: block;
-        font-size: 14px;
-    }
+.time-slot-header span {
+    display: block;
+    font-size: 14px;
+}
 
 .recap-table {
     border-collapse: collapse;
@@ -200,15 +199,15 @@
     margin-bottom: 20px;
 }
 
-    .recap-table th, .recap-table td {
-        border: 1px solid #ddd;
-        padding: 6px;
-    }
+.recap-table th, .recap-table td {
+    border: 1px solid #ddd;
+    padding: 6px;
+}
 
-    .recap-table th {
-        background-color: #e5e5e5;
-        font-weight: bold;
-    }
+.recap-table th {
+    background-color: #e5e5e5;
+    font-weight: bold;
+}
 
 .day-date {
     font-size: 16px;
@@ -232,11 +231,11 @@
     margin-bottom: 10px;
 }
 
-    .control-group label {
-        display: block;
-        font-size: 14px;
-        margin-bottom: 5px;
-    }
+.control-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
 
 .copy-mode-select, .day-select, .employee-select, .previous-week-select {
     padding: 8px;
@@ -270,15 +269,15 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-    .copy-btn:hover, .paste-btn:hover {
-        background-color: #1565c0;
-        transform: translateY(-2px);
-    }
+.copy-btn:hover, .paste-btn:hover {
+    background-color: #1565c0;
+    transform: translateY(-2px);
+}
 
-    .copy-btn:disabled, .paste-btn:disabled {
-        background-color: #6c757d;
-        cursor: not-allowed;
-    }
+.copy-btn:disabled, .paste-btn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
 
 .copy-feedback {
     color: #43a047;
@@ -309,9 +308,9 @@
         height: 50px;
     }
 
-        .back-btn span:last-child, .reset-button span:last-child {
-            font-size: 10px;
-        }
+    .back-btn span:last-child, .reset-button span:last-child {
+        font-size: 10px;
+    }
 
     .total-hours-fixed {
         gap: 8px;
@@ -324,9 +323,9 @@
         height: 50px;
     }
 
-        .total-btn span:last-child {
-            font-size: 10px;
-        }
+    .total-btn span:last-child {
+        font-size: 10px;
+    }
 
     .time-slot-section {
         margin-bottom: 10px;
@@ -338,13 +337,13 @@
     }
 
     .fixed-col {
-        max-width: 100px;
-        min-width: 100px;
+        max-width: 150px;
+        min-width: 150px;
     }
 
     .scrollable-col {
-        width: 70px;
-        min-width: 70px;
+        width: 50px;
+        min-width: 50px;
     }
 
     .time-slot-header span {
@@ -373,9 +372,9 @@
         height: 45px;
     }
 
-        .back-btn span:last-child, .reset-button span:last-child {
-            font-size: 9px;
-        }
+    .back-btn span:last-child, .reset-button span:last-child {
+        font-size: 9px;
+    }
 
     .total-hours-fixed {
         gap: 6px;
@@ -388,9 +387,9 @@
         height: 45px;
     }
 
-        .total-btn span:last-child {
-            font-size: 9px;
-        }
+    .total-btn span:last-child {
+        font-size: 9px;
+    }
 
     .time-slot-section {
         margin-bottom: 8px;
@@ -402,13 +401,13 @@
     }
 
     .fixed-col {
-        max-width: 80px;
-        min-width: 80px;
+        max-width: 120px;
+        min-width: 120px;
     }
 
     .scrollable-col {
-        width: 60px;
-        min-width: 60px;
+        width: 40px;
+        min-width: 40px;
     }
 
     .time-slot-header span {
