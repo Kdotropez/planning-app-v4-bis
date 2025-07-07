@@ -13,11 +13,12 @@
 }
 
 .week-input {
-    display: none;
-}
-
-.calendar-input-wrapper {
-    position: center;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 120px;
+    cursor: pointer;
 }
 
 .week-message {
@@ -30,17 +31,17 @@
     font-size: 17px;
     color: #333;
     margin: 0;
-   }
+}
 
 .calendar-wrapper {
     display: flex;
     align-items: center;
-    gap: 80px;
+    gap: 10px;
     cursor: pointer;
 }
 
 .calendar-icon {
-    font-size: 50px;
+    font-size: 20px;
     color: #1e88e5;
     transition: color 0.3s ease;
 }
@@ -50,7 +51,7 @@
     }
 
 .calendar-arrow {
-    font-size: 30px;
+    font-size: 16px;
     color: #1e88e5;
     transition: color 0.3s ease;
 }
@@ -136,22 +137,32 @@
 @media (max-width: 768px) {
     .week-selector-container {
         padding: 15px;
+        max-width: 100%;
     }
 
     .week-message {
-        font-size: 11px;
+        font-size: 16px;
     }
 
     .week-display {
+        font-size: 14px;
+    }
+
+    .week-input {
+        width: 100px;
         font-size: 12px;
     }
 
     .calendar-icon {
-        font-size: 50px;
+        font-size: 18px;
     }
 
     .calendar-arrow {
-        font-size: 16px;
+        font-size: 14px;
+    }
+
+    .calendar-wrapper {
+        gap: 8px;
     }
 
     .validate-btn, .reset-button, .back-btn {
@@ -163,22 +174,32 @@
 @media (max-width: 480px) {
     .week-selector-container {
         padding: 10px;
+        max-width: 100%;
     }
 
     .week-message {
-        font-size: 10px;
+        font-size: 14px;
     }
 
     .week-display {
+        font-size: 12px;
+    }
+
+    .week-input {
+        width: 90px;
         font-size: 10px;
     }
 
     .calendar-icon {
-        font-size: 18px;
+        font-size: 16px;
     }
 
     .calendar-arrow {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .calendar-wrapper {
+        gap: 6px;
     }
 
     .validate-btn, .reset-button, .back-btn {
