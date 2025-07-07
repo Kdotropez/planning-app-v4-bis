@@ -138,9 +138,14 @@ const PlanningTable = ({
     const [start, end] = timeRange.split('-');
     const formatTime = (time) => {
       const [hours, minutes] = time.split(':');
-      return `${hours.padStart(2, '0')} h${minutes !== '00' ? ` ${minutes}` : ''}`;
+      return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
     };
-    return `De ${formatTime(start)} à ${formatTime(end)}`;
+    return (
+      <div className="time-slot-header">
+        <span>De <span className="time-value">{formatTime(start)}</span></span>
+        <span>à <span className="time-value">{formatTime(end)}</span></span>
+      </div>
+    );
   };
 
   const balanceTimeSlots = () => {
@@ -357,13 +362,14 @@ const PlanningTable = ({
     }
     return (
       <div className="time-slot-section">
-        <h4 className="time-slot-title">{periodName}</h4>
         <table className="planning-table" style={{ tableLayout: 'fixed', width: '100%' }}>
           <thead>
             <tr>
-              <th className="fixed-col" style={{ maxWidth: '180px', width: '180px', minWidth: '180px', fontSize: '14px' }}>Employé</th>
+              <th className="fixed-col" style={{ maxWidth: '180px', width: '180px', minWidth: '180px', fontSize: '14px' }}>{periodName}</th>
               {slots.map((timeRange) => (
-                <th key={`${period}_${timeRange}`} className="scrollable-col" style={{ width: '80px', minWidth: '80px', fontSize: '14px' }} dangerouslySetInnerHTML={{ __html: formatTimeSlot(timeRange) }} />
+                <th key={`${period}_${timeRange}`} className="scrollable-col" style={{ width: '80px', minWidth: '80px', fontSize: '14px' }}>
+                  {formatTimeSlot(timeRange)}
+                </th>
               ))}
             </tr>
           </thead>
@@ -404,66 +410,46 @@ const PlanningTable = ({
         </div>
         <div style={{ fontFamily: 'Roboto', fontSize: '18px', fontWeight: 'bold' }}>Employés: {employees.length ? employees.join(', ') : 'Aucun employé sélectionné'}</div>
         <div className="back-btn-container">
-          <button
-            className="back-btn back-btn-primary"
-            onClick={() => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log('PlanningTable: Returning to shop selection');
-              }
-              onBackToShop();
-            }}
-            title="Retour à la sélection de la boutique"
-            style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-          >
-            Retour Boutique
-          </button>
-          <button
-            className="back-btn"
-            onClick={() => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log('PlanningTable: Returning to week selection');
-              }
-              onBackToWeek();
-            }}
-            title="Retour à la sélection de la semaine"
-            style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-          >
-            Retour Semaine
-          </button>
-          <button
-            className="back-btn"
-            onClick={() => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log('PlanningTable: Returning to employee selection');
-              }
-              onBackToEmployees();
-            }}
-            title="Retour à la sélection des employés"
-            style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-          >
-            Retour Employés
-          </button>
-          <button
-            className="back-btn"
-            onClick={() => {
-              if (process.env.NODE_ENV !== 'production') {
-                console.log('PlanningTable: Returning to time slot configuration');
-              }
-              onBackToConfig();
-            }}
-            title="Retour à la configuration des tranches horaires"
-            style={{ fontFamily: 'Roboto', backgroundColor: '#4a90e2', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-          >
-            Retour Configuration
-          </button>
-          <button
-            className="reset-button"
-            onClick={handleReset}
-            title="Réinitialiser le planning"
-            style={{ fontFamily: 'Roboto', backgroundColor: '#c00', color: 'white', borderRadius: '8px', padding: '10px 20px', fontSize: '16px', fontWeight: 'bold', transition: 'background-color 0.2s, transform 0.1s' }}
-          >
-            Réinitialiser
-          </button>
+          {[
+            { label: 'Retour Boutique', onClick: onBackToShop, className: 'back-btn back-btn-primary', log: 'Returning to shop selection' },
+            { label: 'Retour Semaine', onClick: onBackToWeek, className: 'back-btn', log: 'Returning to week selection' },
+            { label: 'Retour Employés', onClick: onBackToEmployees, className: 'back-btn', log: 'Returning to employee selection' },
+            { label: 'Retour Configuration', onClick: onBackToConfig, className: 'back-btn', log: 'Returning to time slot configuration' },
+            { label: 'Réinitialiser', onClick: handleReset, className: 'reset-button', log: 'Resetting planning' },
+          ].map((btn, index) => (
+            <button
+              key={btn.label}
+              className={btn.className}
+              onClick={() => {
+                if (process.env.NODE_ENV !== 'production') {
+                  console.log(`PlanningTable: ${btn.log}`);
+                }
+                btn.onClick();
+              }}
+              title={btn.label}
+              style={{
+                fontFamily: 'Roboto',
+                backgroundColor: btn.className.includes('reset-button') ? '#c00' : '#4a90e2',
+                color: 'white',
+                borderRadius: '8px',
+                padding: '10px',
+                fontSize: '14px',
+                fontWeight: 'bold',
+                transition: 'background-color 0.2s, transform 0.1s',
+                minWidth: '90px',
+                height: '60px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                textAlign: 'center',
+                lineHeight: '1.4',
+              }}
+            >
+              <span>{btn.label.split(' ')[0]}</span>
+              <span>{btn.label.split(' ').slice(1).join(' ')}</span>
+            </button>
+          ))}
         </div>
       </div>
 
@@ -708,9 +694,9 @@ const PlanningTable = ({
                 style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px' }}
               >
                 <option value="">-- Sélectionner une semaine --</option>
-                {previousWeeks.map((week) => (
-                  <option key={week} value={week}>
-                    {format(new Date(week), 'dd/MM/yy', { locale: fr })}
+                {days.map((day) => (
+                  <option key={day} value={day}>
+                    {day}
                   </option>
                 ))}
               </select>
@@ -786,7 +772,7 @@ const PlanningTable = ({
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Sortie</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Retour</th>
                     <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '60px', fontSize: '14px' }}>Fin</th>
-                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', fontSize: '14px' }}>Heures effectives</th>
+                    <th style={{ fontFamily: 'Roboto', padding: '12px', fontWeight: 'bold', textAlign: 'left', width: '70px', markingsize: '14px' }}>Heures effectives</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -803,7 +789,7 @@ const PlanningTable = ({
                 </tbody>
               </table>
               <p style={{ fontFamily: 'Roboto', marginTop: '10px', fontSize: '14px' }}>Voulez-vous exporter en PDF ?</p>
-              <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefevre 2025</p>
+              <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefèvre 2025</p>
             </div>
           </div>
         }
@@ -863,7 +849,7 @@ const PlanningTable = ({
                 </tbody>
               </table>
               <p style={{ fontFamily: 'Roboto', marginTop: '10px', fontSize: '14px' }}>Voulez-vous exporter en PDF ?</p>
-              <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefevre 2025</p>
+              <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefèvre 2025</p>
             </div>
           </div>
         }
@@ -895,7 +881,7 @@ const PlanningTable = ({
         style={{ fontFamily: 'Roboto', fontSize: '14px' }}
       />
 
-      <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefevre 2025</p>
+      <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefèvre 2025</p>
     </div>
   );
 };
