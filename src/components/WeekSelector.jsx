@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaCalendarAlt, FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight } from 'react-icons/fa';
 import { format, parseISO, isMonday, addDays } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import '../styles/WeekSelector.css';
@@ -30,6 +30,7 @@ const WeekSelector = ({ onWeekSelect, onBack }) => {
     } else {
       console.log('WeekSelector: No week found in localStorage');
     }
+    console.log('WeekSelector: Component mounted');
   }, []);
 
   const handleAddWeek = (week) => {
@@ -84,17 +85,17 @@ const WeekSelector = ({ onWeekSelect, onBack }) => {
       <div className="add-week-section">
         <p className="week-message">Veuillez sélectionner un lundi</p>
         {error && <p className="error-message" style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
-        <div className="calendar-wrapper">
+        <label className="calendar-label" htmlFor="week-input">
           <FaArrowRight className="calendar-arrow" />
           <input
+            id="week-input"
             type="date"
             value={selectedWeek}
             onChange={handleWeekChange}
             className="week-input"
             title="Sélectionner un lundi"
           />
-          <FaCalendarAlt className="calendar-icon" title="Sélectionner un lundi" />
-        </div>
+        </label>
         {selectedWeek && <p className="week-display">{getWeekRangeDisplay(selectedWeek)}</p>}
       </div>
       <div className="action-buttons">

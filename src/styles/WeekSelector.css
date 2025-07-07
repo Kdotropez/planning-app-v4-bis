@@ -1,15 +1,23 @@
 .week-selector-container {
-    max-width: 300px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .add-week-section {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 8px;
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 300px;
 }
 
 .week-input {
@@ -17,38 +25,20 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 120px;
+    width: 140px;
     cursor: pointer;
+    z-index: 1000;
+    background-color: white;
+    pointer-events: auto;
+    box-sizing: border-box;
 }
 
-.week-message {
-    font-size: 22px;
-    color: #333;
-    margin: 0;
-}
-
-.week-display {
-    font-size: 17px;
-    color: #333;
-    margin: 0;
-}
-
-.calendar-wrapper {
+.calendar-label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     cursor: pointer;
 }
-
-.calendar-icon {
-    font-size: 20px;
-    color: #1e88e5;
-    transition: color 0.3s ease;
-}
-
-    .calendar-icon:hover {
-        color: #1565c0;
-    }
 
 .calendar-arrow {
     font-size: 16px;
@@ -60,10 +50,24 @@
         color: #1565c0;
     }
 
+.week-message {
+    font-size: 22px;
+    color: #333;
+    margin: 0;
+    text-align: center;
+}
+
+.week-display {
+    font-size: 17px;
+    color: #333;
+    margin: 0;
+    text-align: center;
+}
+
 .action-buttons {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
 }
 
@@ -138,6 +142,11 @@
     .week-selector-container {
         padding: 15px;
         max-width: 100%;
+        margin-top: 15px;
+    }
+
+    .add-week-section {
+        max-width: 250px;
     }
 
     .week-message {
@@ -149,20 +158,16 @@
     }
 
     .week-input {
-        width: 100px;
+        width: 120px;
         font-size: 12px;
-    }
-
-    .calendar-icon {
-        font-size: 18px;
     }
 
     .calendar-arrow {
         font-size: 14px;
     }
 
-    .calendar-wrapper {
-        gap: 8px;
+    .calendar-label {
+        gap: 6px;
     }
 
     .validate-btn, .reset-button, .back-btn {
@@ -175,6 +180,11 @@
     .week-selector-container {
         padding: 10px;
         max-width: 100%;
+        margin-top: 10px;
+    }
+
+    .add-week-section {
+        max-width: 200px;
     }
 
     .week-message {
@@ -186,20 +196,16 @@
     }
 
     .week-input {
-        width: 90px;
+        width: 100px;
         font-size: 10px;
-    }
-
-    .calendar-icon {
-        font-size: 16px;
     }
 
     .calendar-arrow {
         font-size: 12px;
     }
 
-    .calendar-wrapper {
-        gap: 6px;
+    .calendar-label {
+        gap: 5px;
     }
 
     .validate-btn, .reset-button, .back-btn {
