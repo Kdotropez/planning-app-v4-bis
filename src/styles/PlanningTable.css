@@ -1,0 +1,328 @@
+.planning-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.back-btn-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.back-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #1e88e5;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .back-btn:hover {
+        background-color: #1565c0;
+        transform: translateY(-2px);
+    }
+
+.back-btn-primary {
+    margin-right: auto;
+}
+
+.reset-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #e53935;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .reset-button:hover {
+        background-color: #d32f2f;
+        transform: translateY(-2px);
+    }
+
+.total-hours-fixed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.total-btn {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #1e88e5;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100px; /* Largeur basée sur "Mercredi" */
+    text-align: center;
+}
+
+    .total-btn:hover {
+        background-color: #1565c0;
+        transform: translateY(-2px);
+    }
+
+    .total-btn.active {
+        background-color: #0d47a1;
+    }
+
+.recap-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.recap-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #43a047;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .recap-btn:hover {
+        background-color: #2e7d32;
+        transform: translateY(-2px);
+    }
+
+.shop-recap-btn {
+    background-color: #43a047;
+}
+
+    .shop-recap-btn:hover {
+        background-color: #2e7d32;
+    }
+
+.time-slot-section {
+    margin-bottom: 20px;
+}
+
+.time-slot-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.planning-table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.fixed-col {
+    position: sticky;
+    left: 0;
+    background-color: #fff;
+    z-index: 1;
+    border-right: 1px solid #ddd;
+}
+
+.scrollable-col {
+    text-align: center;
+}
+
+.planning-table th, .planning-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.planning-table th {
+    background-color: #f5f5f5;
+    font-weight: bold;
+}
+
+.recap-table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+    .recap-table th, .recap-table td {
+        border: 1px solid #ddd;
+        padding: 6px;
+    }
+
+    .recap-table th {
+        background-color: #e5e5e5;
+        font-weight: bold;
+    }
+
+.day-date {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.copy-paste-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.copy-paste-controls {
+    margin-bottom: 20px;
+}
+
+.control-group {
+    margin-bottom: 10px;
+}
+
+    .control-group label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+.copy-mode-select, .day-select, .employee-select, .previous-week-select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 200px;
+}
+
+.target-days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.copy-btn, .paste-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #1e88e5;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+    .copy-btn:hover, .paste-btn:hover {
+        background-color: #1565c0;
+        transform: translateY(-2px);
+    }
+
+    .copy-btn:disabled, .paste-btn:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+
+.copy-feedback {
+    color: #43a047;
+    font-size: 12px;
+    margin-top: 10px;
+}
+
+.copyright {
+    font-size: 10px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .planning-container {
+        padding: 15px;
+    }
+
+    .back-btn, .reset-button, .total-btn, .recap-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .total-btn {
+        width: 90px;
+    }
+
+    .time-slot-title {
+        font-size: 16px;
+    }
+
+    .planning-table th, .planning-table td {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .fixed-col {
+        max-width: 150px;
+        min-width: 150px;
+    }
+
+    .scrollable-col {
+        width: 70px;
+        min-width: 70px;
+    }
+
+    .copy-mode-select, .day-select, .employee-select, .previous-week-select {
+        font-size: 12px;
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .planning-container {
+        padding: 10px;
+    }
+
+    .back-btn, .reset-button, .total-btn, .recap-btn {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+    .total-btn {
+        width: 80px;
+    }
+
+    .time-slot-title {
+        font-size: 14px;
+    }
+
+    .planning-table th, .planning-table td {
+        padding: 5px;
+        font-size: 10px;
+    }
+
+    .fixed-col {
+        max-width: 120px;
+        min-width: 120px;
+    }
+
+    .scrollable-col {
+        width: 60px;
+        min-width: 60px;
+    }
+
+    .copy-mode-select, .day-select, .employee-select, .previous-week-select {
+        font-size: 10px;
+        max-width: 120px;
+    }
+}

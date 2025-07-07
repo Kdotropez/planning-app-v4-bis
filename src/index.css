@@ -1,0 +1,434 @@
+.planning-container {
+    max-width: 1200px;
+    margin: 0 0 0 0;
+    padding: 20px 20px 20px 0;
+    text-align: left !important;
+    font-family: 'Roboto', sans-serif;
+}
+
+.week-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+    .week-selector label {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+    }
+
+.week-select {
+    padding: 8px;
+    font-size: 14px;
+    width: 100%;
+    max-width: 300px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+    .week-select:focus {
+        border-color: #1e88e5;
+        outline: none;
+    }
+
+.total-hours-fixed {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+.total-btn {
+    width: auto;
+    min-width: 120px;
+    max-width: 180px;
+    padding: 10px 15px;
+    background: #1e88e5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+    .total-btn:hover {
+        background: #1565c0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+.shop-recap-btn {
+    background: #1e88e5;
+}
+
+    .shop-recap-btn:hover {
+        background: #1565c0;
+    }
+
+.day-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start !important;
+    gap: 5px;
+    margin-bottom: 15px;
+    margin-left: 0;
+}
+
+.total-btn.active {
+    background: #0d47a1;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    margin-left: 0;
+}
+
+.table-wrapper {
+    min-width: 800px;
+}
+
+.planning-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.fixed-col {
+    position: sticky;
+    left: 0;
+    background: white;
+    z-index: 1;
+    width: 180px;
+    min-width: 180px;
+    border-right: 2px solid #ccc;
+    font-weight: bold;
+    text-align: left;
+    padding-left: 10px;
+}
+
+.scrollable-col {
+    width: 80px;
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+    .scrollable-col:hover {
+        background: #f0f0f0;
+    }
+
+.reset-button,
+.copy-btn,
+.paste-btn,
+.reset-selections-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    max-width: 120px;
+    background: #1e88e5;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .reset-button:hover,
+    .copy-btn:hover,
+    .paste-btn:hover,
+    .reset-selections-btn:hover {
+        background: #1565c0;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .reset-button:disabled,
+    .copy-btn:disabled,
+    .paste-btn:disabled,
+    .reset-selections-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+    }
+
+.copy-paste-toggle,
+.previous-week-toggle {
+    margin: 15px 0;
+    display: flex;
+    justify-content: flex-start !important;
+    align-items: center;
+    text-align: left !important;
+    margin-left: 0;
+}
+
+    .copy-paste-toggle label,
+    .previous-week-toggle label {
+        display: flex;
+        align-items: center;
+        text-align: left !important;
+        margin-left: 0;
+        font-size: 15px;
+    }
+
+    .copy-paste-toggle input,
+    .previous-week-toggle input {
+        margin-right: 5px;
+        margin-left: 0;
+    }
+
+.copy-paste-section {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+    margin-left: 0;
+}
+
+.copy-paste-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+    border: 1px solid #bbb;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #fafafa;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+    .control-group label {
+        font-size: 15px;
+        font-weight: bold;
+        color: #333;
+    }
+
+.day-select,
+.copy-mode-select,
+.employee-select,
+.previous-week-select {
+    padding: 8px;
+    font-size: 14px;
+    width: 150px;
+    border: 1px solid #bbb;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+    .day-select:focus,
+    .copy-mode-select:focus,
+    .employee-select:focus,
+    .previous-week-select:focus {
+        border-color: #1e88e5;
+        outline: none;
+    }
+
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+    align-items: center;
+}
+
+.target-days,
+.previous-days {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+    .target-days label,
+    .previous-days label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
+        padding: 8px 12px;
+        background: #ececec;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 200px;
+        transition: background 0.3s ease;
+    }
+
+        .target-days label:hover,
+        .previous-days label:hover {
+            background: #d5d5d5;
+        }
+
+.copy-feedback {
+    color: #2ecc71;
+    font-size: 14px;
+    min-width: 150px;
+}
+
+.previous-week-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid #bbb;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #fafafa;
+}
+
+.no-weeks {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.recap-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    .recap-table th,
+    .recap-table td {
+        border: 1px solid #bbb;
+        padding: 8px;
+        text-align: left;
+        font-size: 12px;
+    }
+
+h2 {
+    text-align: left !important;
+    margin-left: 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+}
+
+h3 {
+    text-align: left !important;
+    margin-left: 0;
+    font-size: 22px;
+    color: #333;
+}
+
+h4 {
+    text-align: left !important;
+    margin-left: 0;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #333;
+}
+
+p.copyright {
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.day-date {
+    text-align: left !important;
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 0;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .total-btn,
+    .reset-button,
+    .copy-btn,
+    .paste-btn,
+    .reset-selections-btn {
+        max-width: 150px;
+        min-width: 80px;
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .day-select,
+    .copy-mode-select,
+    .employee-select,
+    .previous-week-select,
+    .week-select {
+        width: 100%;
+        max-width: 180px;
+        font-size: 13px;
+    }
+
+    .copy-paste-controls,
+    .previous-week-copy {
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .control-group {
+        width: 100%;
+    }
+
+    h2 {
+        font-size: 22px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    h4 {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .recap-table th,
+    .recap-table td {
+        font-size: 10px;
+        padding: 6px;
+    }
+
+    .day-date {
+        font-size: 16px;
+    }
+
+    .copy-paste-toggle label,
+    .previous-week-toggle label {
+        font-size: 13px;
+    }
+
+    .copy-feedback {
+        font-size: 13px;
+    }
+
+    .target-days label,
+    .previous-days label {
+        max-width: 150px;
+    }
+}
