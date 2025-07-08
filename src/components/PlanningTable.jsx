@@ -50,6 +50,7 @@ const PlanningTable = ({
   const [previousWeeks, setPreviousWeeks] = useState([]);
   const [showConfirmPaste, setShowConfirmPaste] = useState(false);
   const [showConfirmReset, setShowConfirmReset] = useState(false);
+  const [resetEmployee, setResetEmployee] = useState('all'); // Nouvel état pour l'employé à réinitialiser
   const [selectedEmployeeForRecap, setSelectedEmployeeForRecap] = useState('');
   const [isEmployeeRecapModalOpen, setIsEmployeeRecapModalOpen] = useState(false);
   const [isWeeklyRecapModalOpen, setIsWeeklyRecapModalOpen] = useState(false);
@@ -257,16 +258,33 @@ const PlanningTable = ({
   const confirmReset = () => {
     const key = `planning_${selectedShop}_${selectedWeek}`;
     try {
-      localStorage.removeItem(key);
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('PlanningTable: Planning reset and removed from localStorage:', key);
+      if (resetEmployee === 'all') {
+        // Réinitialisation totale
+        localStorage.removeItem(key);
+        setPlanning({});
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('PlanningTable: Full planning reset and removed from localStorage:', key);
+        }
+      } else {
+        // Réinitialisation pour un employé spécifique
+        const updatedPlanning = { ...planning };
+        Object.keys(updatedPlanning).forEach((slotKey) => {
+          if (slotKey.endsWith(`_${resetEmployee}`)) {
+            delete updatedPlanning[slotKey];
+          }
+        });
+        localStorage.setItem(key, JSON.stringify(updatedPlanning));
+        setPlanning(updatedPlanning);
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(`PlanningTable: Reset planning for employee ${resetEmployee}, saved to localStorage:`, updatedPlanning);
+        }
       }
+      setResetEmployee('all'); // Réinitialiser le sélecteur après confirmation
+      setShowConfirmReset(false);
     } catch (error) {
-      console.error('PlanningTable: Error removing from localStorage:', error);
+      console.error('PlanningTable: Error during reset:', error);
       setError('Erreur lors de la réinitialisation du planning');
     }
-    setPlanning({});
-    setShowConfirmReset(false);
   };
 
   const handleDayChange = (day) => {
@@ -365,9 +383,9 @@ const PlanningTable = ({
         <table className="planning-table" style={{ tableLayout: 'fixed', width: '100%' }}>
           <thead>
             <tr>
-              <th className="fixed-col" style={{ maxWidth: '180px', width: '180px', minWidth: '180px', fontSize: '14px' }}>{periodName}</th>
+              <th className="fixed-col">{periodName}</th>
               {slots.map((timeRange) => (
-                <th key={`${period}_${timeRange}`} className="scrollable-col" style={{ width: '60px', minWidth: '60px', fontSize: '14px' }}>
+                <th key={`${period}_${timeRange}`} className="scrollable-col">
                   {formatTimeSlot(timeRange)}
                 </th>
               ))}
@@ -384,7 +402,7 @@ const PlanningTable = ({
                     key={`${period}_${employee}_${timeRange}`}
                     className="scrollable-col"
                     onClick={() => handleToggleSlot(employee, selectedDay, timeRange)}
-                    style={{ backgroundColor: planning[`${selectedDay}_${timeRange}_${employee}`] ? getEmployeeColor(employee) : '', fontSize: '14px', transition: 'background-color 0.2s' }}
+                    style={{ backgroundColor: planning[`${selectedDay}_${timeRange}_${employee}`] ? getEmployeeColor(employee) : '', transition: 'background-color 0.2s' }}
                   >
                     {planning[`${selectedDay}_${timeRange}_${employee}`] ? '✅' : ''}
                   </td>
@@ -461,14 +479,14 @@ const PlanningTable = ({
             className={`total-btn ${selectedDay === day ? 'active' : ''}`}
             onClick={() => handleDayChange(day)}
             title={`Voir le planning pour ${day}`}
-            style={{ 
-              fontFamily: 'Roboto', 
-              backgroundColor: getCouleurJour(index, 'total-btn'), 
-              color: 'white', 
-              borderRadius: '8px', 
-              padding: '10px', 
-              fontSize: '14px', 
-              fontWeight: 'bold', 
+            style={{
+              fontFamily: 'Roboto',
+              backgroundColor: getCouleurJour(index, 'total-btn'),
+              color: 'white',
+              borderRadius: '8px',
+              padding: '10px',
+              fontSize: '14px',
+              fontWeight: 'bold',
               transition: 'background-color 0.2s, transform 0.1s',
               display: 'flex',
               flexDirection: 'column',
@@ -885,10 +903,11 @@ const PlanningTable = ({
           }
           setShowConfirmPaste(false);
         }}
-        onConfirm={() => handleConfirmPastePreviousWeek()}
+        onConfirm={handleConfirmPastePreviousWeek}
         message="Voulez-vous vraiment coller la semaine précédente ? Cela remplacera le planning actuel."
         style={{ fontFamily: 'Roboto', fontSize: '14px' }}
       />
+
       <Modal
         isOpen={showConfirmReset}
         onClose={() => {
@@ -896,10 +915,44 @@ const PlanningTable = ({
             console.log('PlanningTable: Closed confirm reset modal');
           }
           setShowConfirmReset(false);
+          setResetEmployee('all');
         }}
-        onConfirm={() => handleReset()}
-        message="Voulez-vous vraiment réinitialiser le planning ? Cela supprimera toutes les données du planning actuel."
-        style={{ fontFamily: 'Roboto', fontSize: '14px' }}
+        onConfirm={confirmReset}
+        message={
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <p style={{ fontFamily: 'Roboto', fontSize: '14px' }}>
+              Voulez-vous vraiment réinitialiser le planning ?
+            </p>
+            <div className="control-group">
+              <label style={{ fontFamily: 'Roboto', fontSize: '14px' }}>
+                Réinitialiser pour :
+              </label>
+              <select
+                value={resetEmployee}
+                onChange={(e) => {
+                  setResetEmployee(e.target.value);
+                  if (process.env.NODE_ENV !== 'production') {
+                    console.log('PlanningTable: Changed reset employee to:', e.target.value);
+                  }
+                }}
+                style={{ fontFamily: 'Roboto', padding: '10px', borderRadius: '8px', fontSize: '14px', width: '100%', maxWidth: '300px' }}
+              >
+                <option value="all">Tous les employés</option>
+                {employees.map((emp) => (
+                  <option key={emp} value={emp}>
+                    {emp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <p style={{ fontFamily: 'Roboto', fontSize: '14px' }}>
+              {resetEmployee === 'all'
+                ? 'Cela supprimera toutes les données du planning actuel.'
+                : `Cela supprimera les données du planning pour ${resetEmployee}.`}
+            </p>
+          </div>
+        }
+        style={{ fontFamily: 'Roboto', fontSize: '14px', padding: '20px' }}
       />
 
       <p className="copyright" style={{ fontFamily: 'Roboto', fontSize: '10px', color: '#666' }}>© Nicolas Lefèvre 2025</p>
